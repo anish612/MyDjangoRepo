@@ -42,10 +42,10 @@ echo "server {
         include proxy_params;
         proxy_pass http://unix:/run/gunicorn.sock;
     }
-}" > /etc/nginx/sites-available/first
+}" > /etc/nginx/sites-available/myproject
 
 
-sudo ln -s /etc/nginx/sites-available/first /etc/nginx/sites-enabled/
+sudo ln -s /etc/nginx/sites-available/myproject /etc/nginx/sites-enabled/
 
 sudo rm /etc/nginx//sites-enabled/default
 
