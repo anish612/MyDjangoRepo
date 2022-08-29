@@ -1,0 +1,24 @@
+version 0.2
+phases:
+  install:
+    commands:
+      - apt-get update -y
+      - apt-get install -y maven curl wget
+      - apt-get purge nodejs npm
+      - curl -sL https://deb.nodesource.com/setup_10.x | sudo -E bash -
+      - apt-get install -y nodejs
+      - node --version
+  pre_build:
+    commands:
+      - pip install -r server/requirements/development.txt
+      - cd webapp && npm install & cd ..
+      - cd webapp && gulp && cd ..
+      - cd server && python manage.py collectstatic --noinput && cd ..
+  build:
+    commands:
+      - cd server && coverage run -m py.test > test.out && cd ..
+      - cd server && coverage report --include=apps/* > coverage.out && cd ..
+      - cd server && coverage html --include=apps/* && cd ..
+  post_build:
+    commands:
+      - echo Build completed on `date`
